@@ -1,15 +1,37 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowDownRight, ArrowUpRight, BarChart3, BookOpen, Check, ChevronRight, CircleHelp, Clock3, Download, FileText, Filter, Globe2, Home, LayoutGrid, Menu, MoreHorizontal, Pencil, Plus, RefreshCw, Search, Settings2, ShieldCheck, SlidersHorizontal, Sparkles, Target, TrendingUp, Upload, WalletCards, X } from 'lucide-react'
+import AEMLogo from './assets/logos/AEM.png'
+import AAPLLogo from './assets/logos/AAPL.png'
+import AISLogo from './assets/logos/AIS.svg'
+import AMDLogo from './assets/logos/AMD.png'
+import AMZNLogo from './assets/logos/AMZN.png'
+import ASMLLogo from './assets/logos/ASML.png'
+import AVGOLogo from './assets/logos/AVGO.png'
+import FROLogo from './assets/logos/FRO.png'
+import FRDMLogo from './assets/logos/FRDM.png'
+import GOOGLLogo from './assets/logos/GOOGL.png'
+import LRCXLogo from './assets/logos/LRCX.png'
+import METALogo from './assets/logos/META.png'
+import MSFTLogo from './assets/logos/MSFT.png'
+import MULogo from './assets/logos/MU.png'
+import NFLXLogo from './assets/logos/NFLX.png'
+import NVDALogo from './assets/logos/NVDA.png'
+import PLTRLogo from './assets/logos/PLTR.png'
+import SOXQLogo from './assets/logos/SOXQ.png'
+import TSMLogo from './assets/logos/TSM.png'
+import VLOLogo from './assets/logos/VLO.png'
 
 type Sleeve = { id: string; name: string; short: string; target: number; value: number; tone: string; description: string }
 type Holding = { id: string; name: string; ticker: string; sleeve: string; value: number; target: number; color: string; geography: string; sector: string; thesis: string }
 
 const iconPalette = ['#6840ff', '#2ba0ff', '#f84131', '#a1a1a1', '#201d1d']
+const holdingLogos: Record<string, string> = { AEM: AEMLogo, AAPL: AAPLLogo, AIS: AISLogo, AMD: AMDLogo, AMZN: AMZNLogo, ASML: ASMLLogo, AVGO: AVGOLogo, FRO: FROLogo, FRDM: FRDMLogo, GOOGL: GOOGLLogo, LRCX: LRCXLogo, META: METALogo, MSFT: MSFTLogo, MU: MULogo, NFLX: NFLXLogo, NVDA: NVDALogo, PLTR: PLTRLogo, SOXQ: SOXQLogo, TSM: TSMLogo, VLO: VLOLogo }
 function HoldingIcon({ ticker, color }: { ticker: string; color?: string }) {
   const hash = [...ticker].reduce((sum, char) => sum + char.charCodeAt(0), 0)
   const background = color || iconPalette[hash % iconPalette.length]
   const label = ticker.replace(/[^A-Za-z0-9]/g, '').slice(0, 4).toUpperCase()
-  return <span className="holding-icon" style={{ background }} aria-label={`${ticker} holding icon`}>{label}</span>
+  const logo = holdingLogos[ticker]
+  return <span className={`holding-icon${logo ? ' has-logo' : ''}`} style={{ background: logo ? '#fff' : background }} aria-label={`${ticker} holding icon`}>{logo ? <img src={logo} alt="" /> : label}</span>
 }
 
 const demoSleeves: Sleeve[] = [

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title>AIS</title>
+  <circle cx="50" cy="50" r="49" fill="#2b8fe8"/>
+  <path d="M18 67 38 30l15 21 10-13 20 29H18Z" fill="#fff" opacity=".92"/>
+  <text x="50" y="84" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#fff">AIS</text>
+</svg>
