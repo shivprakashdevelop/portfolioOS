@@ -226,6 +226,11 @@ body,.app-shell,.main{background:var(--concrete);color:var(--ink)}
 .danger-btn{background:var(--vermillion);color:var(--concrete);border-color:var(--ink)}
 .status-chip{background:var(--bone);color:var(--ink)}.status-dot{background:var(--volt)}
 
+/* Final typography audit: every element gets a loaded sans font; display/mono roles are explicit. */
+*,*::before,*::after{font-family:HafferVF,ui-sans-serif,system-ui,sans-serif!important}
+.page-head h1,.subpage-head h1,.section-heading h2,.next-card h3,.concentration-card h3,.sleeve-card h3,.stage-card h3,.deploy-intro h3,.modal-header h2,.health-score,.metric-card strong,.core-orbit strong,.theme-panel h3{font-family:HafferXH,ui-sans-serif,system-ui,sans-serif!important}
+.eyebrow,.section-label,.card-kicker,.table-head,.conversion-note,.holding-plan-label,.plan-total,.priority strong,.meter-labels,.job-pill,.muted-inline,.deploy-name small,.modal-footnote,.site-nav-panel-head,.site-nav-panel-foot,.ticker-item,.crumb,.amount-input .currency,.allocation-number,.zero,.geo-row strong,.stage-number,.mini-allocation b,.status-chip,.good-chip,.orbit,.core-orbit small,.total-footer,.health-score small{font-family:HafferMono,ui-monospace,monospace!important}
+
 /* Final nav geometry override; legacy rules cannot flatten the reference shape. */
 .site-nav-bar{border-radius:14px!important}
 @media(max-width:1100px){.site-nav{left:20px;right:20px}.site-nav-bar{height:70px;border-radius:14px!important}}
