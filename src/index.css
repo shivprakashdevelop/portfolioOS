@@ -68,6 +68,11 @@ body{letter-spacing:-.007em}
   .ticker-item{padding:9px 18px 9px 0;font-size:9px}
 }
 
+/* Final nav geometry override; placed last so legacy rules cannot flatten it into a capsule. */
+.site-nav-bar{border-radius:14px!important}
+@media(max-width:1100px){.site-nav{left:20px;right:20px}.site-nav-bar{height:70px;border-radius:14px!important}}
+@media(max-width:850px){.site-nav{left:0;right:0;padding-left:17px;padding-right:17px}.site-nav-bar{border-radius:14px!important}}
+
 /* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
 @media(max-width:1100px){
   .site-nav{left:20px;right:20px}
@@ -207,3 +212,8 @@ body,.app-shell,.main{background:var(--concrete);color:var(--ink)}
 .currency-switch{background:var(--bone)}.currency-switch button{color:var(--ink)}.currency-switch button.selected{background:var(--volt);color:var(--ink)}
 .danger-btn{background:var(--vermillion);color:var(--concrete);border-color:var(--ink)}
 .status-chip{background:var(--bone);color:var(--ink)}.status-dot{background:var(--volt)}
+
+/* Final nav geometry override; legacy rules cannot flatten the reference shape. */
+.site-nav-bar{border-radius:14px!important}
+@media(max-width:1100px){.site-nav{left:20px;right:20px}.site-nav-bar{height:70px;border-radius:14px!important}}
+@media(max-width:850px){.site-nav{left:0;right:0;padding-left:17px;padding-right:17px}.site-nav-bar{border-radius:14px!important}}
