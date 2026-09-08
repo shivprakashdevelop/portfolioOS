@@ -74,7 +74,7 @@ body{letter-spacing:-.007em}
 @media(max-width:850px){.site-nav{left:0;right:0;padding-left:17px;padding-right:17px}.site-nav-bar{border-radius:14px!important}}
 
 /* Keep the ticker visually attached to the bottom edge of the nav. */
-.ticker-marquee{margin-top:-2px!important}
+.ticker-marquee{margin-top:16px!important}
 
 /* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
 @media(max-width:1100px){
