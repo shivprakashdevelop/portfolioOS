@@ -81,6 +81,7 @@ body{letter-spacing:-.007em}
 .ticker-marquee{position:static;top:auto;transform:none!important;margin-top:0!important;margin-bottom:0!important}
 .site-nav>.ticker-marquee{display:block;position:static;transform:none!important;margin:16px 0 0!important}
 .site-nav.open>.ticker-marquee{display:none}
+.modal-backdrop{z-index:100!important}
 
 /* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
 @media(max-width:1100px){
