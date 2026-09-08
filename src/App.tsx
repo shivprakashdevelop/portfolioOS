@@ -116,10 +116,10 @@ function App() {
         <button className="site-nav-action" onClick={() => setShowDeploy(true)}>Deploy</button>
       </div>
       {mobileNav && <div className="site-nav-panel"><div className="site-nav-panel-head"><span>Current US Portfolio · USD</span><button onClick={() => setMobileNav(false)} aria-label="Close menu"><X size={17}/></button></div><nav>{nav.map((item, i) => { const Icon = [Home, LayoutGrid, BarChart3, WalletCards, Sparkles, RefreshCw, BookOpen, MoreHorizontal, Settings2][i]; return <button key={item} onClick={() => { setActive(item); setMobileNav(false); setShowDeploy(item === 'Deploy New Money') }} className={active === item ? 'active' : ''}><Icon size={16}/><span>{item}</span>{item === 'Deploy New Money' && <span className="nav-dot"/>}</button> })}</nav><div className="site-nav-panel-foot"><span><i/> {quoteStatus === 'live' ? 'Live price feed' : 'Manual price snapshot'}</span><span>Portfolio OS is a portfolio organization and calculation tool.</span></div></div>}
+      <TickerMarquee livePrices={livePrices}/>
     </header>
     <main className="main">
       <header className="topbar"><button className="menu-btn" onClick={() => setMobileNav(true)}><Menu size={21}/></button><div className="crumb"><span>Current US Portfolio</span><ChevronRight size={14}/><strong>{active}</strong></div><div className="top-actions"><button className="icon-btn"><CircleHelp size={18}/></button><div className="profile">US</div></div></header>
-      <TickerMarquee livePrices={livePrices}/>
       <div className="content">
         <div className="eyebrow">US PORTFOLIO <span className="live-label"><span className="status-dot"/> {quoteStatus === 'live' ? 'Twelve Data · refreshed every 5 min' : quoteStatus === 'loading' ? 'Updating prices…' : 'Manual snapshot fallback'}</span></div>
         <div className={active === 'Overview' ? '' : 'hidden-view'}>
