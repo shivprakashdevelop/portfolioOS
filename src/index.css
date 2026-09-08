@@ -38,7 +38,7 @@ body{letter-spacing:-.007em}
 
 /* Osmo-style floating nav + ticker marquee */
 .nav-menu-label{display:flex;align-items:center;gap:6px;border:1px solid transparent;background:transparent;color:var(--ink);border-radius:1600px;padding:8px 10px;font:700 11px HafferMono;cursor:pointer}
-.nav-menu-label:hover{border-color:var(--ink);background:var(--ash)}
+.nav-menu-label:hover{border-color:var(--ink);background:var(--card)}
 .sidebar nav{justify-content:center;gap:0}
 .sidebar nav button{font-family:HafferVF;font-weight:700;font-size:11px;padding:9px 10px}
 .sidebar nav button svg{display:none}
@@ -70,25 +70,25 @@ body{letter-spacing:-.007em}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 /* Match the reference's dark floating pill and fluorescent marquee treatment. */
-.sidebar{background:var(--obsidian);border-color:var(--obsidian);color:var(--concrete)}
-.brand>span{display:inline!important;color:var(--concrete)!important}
+.sidebar{background:#151313!important;border-color:#151313!important;color:var(--canvas)}
+.brand>span{display:inline!important;color:var(--canvas)!important}
 .brand-mark{background:var(--volt);color:var(--ink)}
-.nav-menu-label{color:var(--concrete)}
-.nav-menu-label:hover{border-color:var(--concrete);background:var(--charcoal)}
-.sidebar nav button{color:var(--concrete)}
-.sidebar nav button:hover,.sidebar nav button.active{background:var(--charcoal);color:var(--concrete)}
+.nav-menu-label{color:var(--canvas)}
+.nav-menu-label:hover{border-color:var(--canvas);background:#312e2e}
+.sidebar nav button{color:var(--canvas)}
+.sidebar nav button:hover,.sidebar nav button.active{background:#312e2e;color:var(--canvas)}
 .sidebar nav button:nth-child(5){background:var(--volt);color:var(--ink)}
-.nav-utility{border-color:var(--concrete);color:var(--concrete)}
+.nav-utility{border-color:var(--canvas);color:var(--canvas)}
 .nav-join{border-color:var(--volt);background:var(--volt);color:var(--ink)}
 .close-nav{display:none!important}
-.sidebar.open .close-nav{display:block!important;color:var(--concrete)}
+.sidebar.open .close-nav{display:block!important;color:var(--canvas)}
 .ticker-marquee{background:var(--volt);border-color:var(--ink)}
 .ticker-item{color:var(--ink)}
 .ticker-item i{background:var(--ink);border-color:var(--ink)}
 @media(max-width:850px){
-  .sidebar{background:var(--obsidian);border-color:var(--obsidian)}
-  .sidebar .brand>span{display:inline!important;color:var(--concrete)!important}
-  .sidebar .nav-menu-label span{display:inline!important;color:var(--concrete)!important}
+  .sidebar{background:#151313!important;border-color:#151313!important}
+  .sidebar .brand>span{display:inline!important;color:var(--canvas)!important}
+  .sidebar .nav-menu-label span{display:inline!important;color:var(--canvas)!important}
   .sidebar .close-nav{display:none!important}
   .sidebar.open .close-nav{display:block!important}
   .sidebar.open .brand>span{display:inline!important}
