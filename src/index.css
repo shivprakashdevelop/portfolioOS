@@ -68,6 +68,30 @@ body{letter-spacing:-.007em}
   .ticker-item{padding:9px 18px 9px 0;font-size:9px}
 }
 
+/* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
+@media(max-width:850px){
+  .site-nav{top:0;left:0;right:0;max-width:none;margin:0;padding:18px 17px;background:transparent}
+  .site-nav-bar{height:70px;padding:10px 16px;border-radius:14px;background:#151313;border-color:#151313}
+  .site-nav-menu{padding:8px 0;font-size:21px!important;font-weight:400!important;gap:12px}
+  .site-nav-menu svg{width:40px;height:28px;stroke-width:1.2}
+  .site-nav-brand{font-size:18px!important;font-weight:500!important;gap:8px}
+  .site-nav-brand .brand-mark{width:34px;height:34px;border-radius:5px}
+  .site-nav-action{padding:14px 22px;font-size:20px!important;font-weight:400!important;border-radius:5px}
+  .site-nav.open{position:fixed;inset:0;z-index:30;overflow:auto;padding:0 0 28px;background:#151313}
+  .site-nav.open .site-nav-bar{height:88px;padding:10px 17px;border-radius:0;border:0;border-bottom:1px solid #3a3636}
+  .site-nav.open .site-nav-menu svg{display:none}
+  .site-nav.open .site-nav-menu:before{content:'×';font-size:42px;font-weight:200;line-height:22px}
+  .site-nav.open .site-nav-panel{margin:22px 32px 0;padding:27px 22px;background:#2a2727;border:0;border-radius:34px}
+  .site-nav.open .site-nav-panel-head{padding:0 0 18px;border:0;font:400 18px HafferVF;color:#d1cece}
+  .site-nav.open .site-nav-panel-head button{display:none}
+  .site-nav.open .site-nav-panel nav{display:block;padding:0}
+  .site-nav.open .site-nav-panel nav button{padding:18px 0;border-bottom:1px solid #454141;border-radius:0;background:transparent;color:#f4f4f4;font-size:24px;font-weight:400}
+  .site-nav.open .site-nav-panel nav button:last-child{border-bottom:0}
+  .site-nav.open .site-nav-panel nav button svg,.site-nav.open .site-nav-panel nav button .nav-dot{display:none}
+  .site-nav.open .site-nav-panel nav button.active{background:transparent;color:#f4f4f4}
+  .site-nav.open .site-nav-panel-foot{margin:28px -22px -27px;padding:18px 0 0;border-top:1px solid #454141;font-size:11px;display:flex}
+}
+
 /* Clean navigation rebuild: one Osmo-style pill and one expandable menu. */
 .sidebar{display:none!important}
 .site-nav{position:fixed;z-index:20;top:12px;left:12px;right:12px;max-width:1200px;margin:auto;font-family:HafferVF,ui-sans-serif,system-ui,sans-serif}
