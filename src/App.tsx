@@ -110,13 +110,15 @@ function App() {
 
   return <div className="app-shell">
     <aside className={`sidebar ${mobileNav ? 'open' : ''}`}>
-      <div className="brand"><div className="brand-mark"><Target size={17}/></div><span>Portfolio <em>OS</em></span><button className="close-nav" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
+      <div className="brand"><button className="nav-menu-label" onClick={() => setMobileNav(true)}><Menu size={16}/><span>Menu</span></button><div className="brand-mark"><Target size={17}/></div><span>Portfolio <em>OS</em></span><button className="close-nav" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
       <div className="portfolio-switch"><div className="avatar">US</div><div><strong>Current US Portfolio</strong><span>Adam Active · USD</span></div><ChevronRight size={16}/></div>
       <nav>{nav.map((item, i) => { const Icon = [Home, LayoutGrid, BarChart3, WalletCards, Sparkles, RefreshCw, BookOpen, MoreHorizontal, Settings2][i]; return <button key={item} onClick={() => { setActive(item); setMobileNav(false); setShowDeploy(item === 'Deploy New Money') }} className={active === item ? 'active' : ''}><Icon size={17}/><span>{item}</span>{item === 'Deploy New Money' && <span className="nav-dot"/>}</button> })}</nav>
+      <div className="nav-actions"><button className="nav-utility">USD</button><button className="nav-join" onClick={() => setShowDeploy(true)}>Deploy</button></div>
       <div className="sidebar-footer"><div className="sync"><span className="status-dot"/> Manual price snapshot</div><div className="disclaimer">Portfolio OS is a portfolio organization and calculation tool. It does not provide investment, tax, or legal advice.</div></div>
     </aside>
     <main className="main">
       <header className="topbar"><button className="menu-btn" onClick={() => setMobileNav(true)}><Menu size={21}/></button><div className="crumb"><span>Current US Portfolio</span><ChevronRight size={14}/><strong>{active}</strong></div><div className="top-actions"><button className="icon-btn"><CircleHelp size={18}/></button><div className="profile">US</div></div></header>
+      <TickerMarquee livePrices={livePrices}/>
       <div className="content">
         <div className="eyebrow">US PORTFOLIO <span className="live-label"><span className="status-dot"/> {quoteStatus === 'live' ? 'Twelve Data · refreshed every 5 min' : quoteStatus === 'loading' ? 'Updating prices…' : 'Manual snapshot fallback'}</span></div>
         <div className={active === 'Overview' ? '' : 'hidden-view'}>
@@ -138,6 +140,8 @@ function App() {
     {showDeploy && <DeployModal amount={amount} setAmount={setAmount} amountCurrency={amountCurrency} setAmountCurrency={(next) => { const numeric = Number(amount.replace(/,/g, '')) || 0; setAmount(String(Math.round(next === 'USD' ? numeric / INR_PER_USD : numeric * INR_PER_USD))); setAmountCurrency(next) }} deployment={deployment} onClose={() => setShowDeploy(false)}/>} 
   </div>
 }
+
+function TickerMarquee({ livePrices }: { livePrices: Record<string, number> }) { const tickerItems = holdings.map(h => `${h.ticker}  $${(livePrices[h.ticker] ?? snapshotPrices[h.ticker] ?? 0).toFixed(2)}`); const items = [...tickerItems, ...tickerItems]; return <div className="ticker-marquee" aria-label="Portfolio ticker strip"><div className="ticker-track">{items.map((item, index) => <span className="ticker-item" key={`${item}-${index}`}><i/> {item}</span>)}</div></div> }
 
 function PageView({ screen, onDeploy, theme, onThemeChange }: { screen: string; onDeploy: () => void; theme: 'light' | 'dark'; onThemeChange: (theme: 'light' | 'dark') => void }) {
   const titles: Record<string, [string, string]> = {
