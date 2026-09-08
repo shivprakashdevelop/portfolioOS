@@ -137,7 +137,6 @@ function App() {
         <footer className="mobile-disclaimer">Sample data is isolated from your real portfolio. Portfolio OS does not provide investment, tax, or legal advice.</footer>
       </div>
     </main>
-    <div className="mobile-tabs"><button className={active === 'Overview' ? 'active' : ''} onClick={() => setActive('Overview')}><Home size={18}/><span>Home</span></button><button onClick={() => setActive('Portfolio')}><LayoutGrid size={18}/><span>Portfolio</span></button><button className="deploy-tab" onClick={() => setShowDeploy(true)}><span><Plus size={20}/></span><small>Deploy</small></button><button onClick={() => setActive('Reviews')}><BookOpen size={18}/><span>Review</span></button><button onClick={() => setActive('Settings')}><MoreHorizontal size={18}/><span>More</span></button></div>
     {showDeploy && <DeployModal amount={amount} setAmount={setAmount} amountCurrency={amountCurrency} setAmountCurrency={(next) => { const numeric = Number(amount.replace(/,/g, '')) || 0; setAmount(String(Math.round(next === 'USD' ? numeric / INR_PER_USD : numeric * INR_PER_USD))); setAmountCurrency(next) }} deployment={deployment} onClose={() => setShowDeploy(false)}/>} 
   </div>
 }
