@@ -67,6 +67,39 @@ body{letter-spacing:-.007em}
   .ticker-marquee{margin:0 18px}
   .ticker-item{padding:9px 18px 9px 0;font-size:9px}
 }
+
+/* Clean navigation rebuild: one Osmo-style pill and one expandable menu. */
+.sidebar{display:none!important}
+.site-nav{position:fixed;z-index:20;top:12px;left:12px;right:12px;max-width:1200px;margin:auto;font-family:HafferVF,ui-sans-serif,system-ui,sans-serif}
+.site-nav-bar{height:58px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:8px 10px;background:#151313;border:1px solid #151313;border-radius:1600px}
+.site-nav button{font:700 12px HafferVF;cursor:pointer}
+.site-nav-menu,.site-nav-brand,.site-nav-action{display:flex;align-items:center;gap:7px;border:0;border-radius:1600px;white-space:nowrap}
+.site-nav-menu{justify-self:start;padding:9px 12px;background:transparent;color:var(--canvas)}
+.site-nav-menu:hover{background:#312e2e}
+.site-nav-brand{justify-self:center;padding:0;background:transparent;color:var(--canvas);font-size:14px!important}
+.site-nav-brand em{font-style:normal;color:var(--smoke)}
+.site-nav-brand .brand-mark{width:31px;height:31px;border-radius:5px;background:var(--volt);color:var(--ink)}
+.site-nav-action{justify-self:end;padding:10px 16px;background:var(--volt);border:1px solid var(--volt)!important;color:var(--ink)}
+.site-nav-action:hover{background:var(--bone)}
+.site-nav-panel{margin-top:6px;padding:12px;background:#151313;border:1px solid #151313;border-radius:5px;color:var(--canvas)}
+.site-nav-panel-head{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 12px;border-bottom:1px solid #4d4949;font:400 10px HafferMono;color:var(--smoke)}
+.site-nav-panel-head button{display:grid;place-items:center;border:0;background:transparent;color:var(--canvas);padding:4px}
+.site-nav-panel nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:12px 0}
+.site-nav-panel nav button{display:flex;align-items:center;gap:8px;padding:11px 12px;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--canvas);text-align:left}
+.site-nav-panel nav button:hover,.site-nav-panel nav button.active{background:var(--volt);color:var(--ink)}
+.site-nav-panel nav button .nav-dot{margin-left:auto}
+.site-nav-panel-foot{display:flex;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid #4d4949;color:var(--smoke);font:400 9px HafferMono}
+.site-nav-panel-foot i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--volt);margin-right:5px}
+.topbar .menu-btn{display:none!important}
+@media(max-width:850px){
+  .site-nav{top:10px;left:10px;right:10px}
+  .site-nav-bar{height:60px}
+  .site-nav-brand{font-size:12px!important;gap:6px}
+  .site-nav-brand .brand-mark{width:30px;height:30px}
+  .site-nav-action{padding:9px 14px;font-size:11px!important}
+  .site-nav-panel nav{grid-template-columns:1fr}
+  .site-nav-panel-foot{flex-direction:column;gap:7px}
+}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 /* Match the reference's dark floating pill and fluorescent marquee treatment. */

@@ -109,13 +109,14 @@ function App() {
   const nav = ['Overview', 'Portfolio', 'Sleeves', 'Holdings', 'Deploy New Money', 'Rebalance', 'Reviews', 'Journal', 'Settings']
 
   return <div className="app-shell">
-    <aside className={`sidebar ${mobileNav ? 'open' : ''}`}>
-      <div className="brand"><button className="nav-menu-label" onClick={() => setMobileNav(true)}><Menu size={16}/><span>Menu</span></button><div className="brand-mark"><Target size={17}/></div><span>Portfolio <em>OS</em></span><button className="close-nav" onClick={() => setMobileNav(false)}><X size={18}/></button></div>
-      <div className="portfolio-switch"><div className="avatar">US</div><div><strong>Current US Portfolio</strong><span>Adam Active · USD</span></div><ChevronRight size={16}/></div>
-      <nav>{nav.map((item, i) => { const Icon = [Home, LayoutGrid, BarChart3, WalletCards, Sparkles, RefreshCw, BookOpen, MoreHorizontal, Settings2][i]; return <button key={item} onClick={() => { setActive(item); setMobileNav(false); setShowDeploy(item === 'Deploy New Money') }} className={active === item ? 'active' : ''}><Icon size={17}/><span>{item}</span>{item === 'Deploy New Money' && <span className="nav-dot"/>}</button> })}</nav>
-      <div className="nav-actions"><button className="nav-utility">USD</button><button className="nav-join" onClick={() => setShowDeploy(true)}>Deploy</button></div>
-      <div className="sidebar-footer"><div className="sync"><span className="status-dot"/> Manual price snapshot</div><div className="disclaimer">Portfolio OS is a portfolio organization and calculation tool. It does not provide investment, tax, or legal advice.</div></div>
-    </aside>
+    <header className={`site-nav ${mobileNav ? 'open' : ''}`}>
+      <div className="site-nav-bar">
+        <button className="site-nav-menu" onClick={() => setMobileNav(!mobileNav)} aria-expanded={mobileNav}><Menu size={18}/><span>Menu</span></button>
+        <button className="site-nav-brand" onClick={() => { setActive('Overview'); setMobileNav(false) }}><span className="brand-mark"><Target size={17}/></span><span>Portfolio <em>OS</em></span></button>
+        <button className="site-nav-action" onClick={() => setShowDeploy(true)}>Deploy</button>
+      </div>
+      {mobileNav && <div className="site-nav-panel"><div className="site-nav-panel-head"><span>Current US Portfolio · USD</span><button onClick={() => setMobileNav(false)} aria-label="Close menu"><X size={17}/></button></div><nav>{nav.map((item, i) => { const Icon = [Home, LayoutGrid, BarChart3, WalletCards, Sparkles, RefreshCw, BookOpen, MoreHorizontal, Settings2][i]; return <button key={item} onClick={() => { setActive(item); setMobileNav(false); setShowDeploy(item === 'Deploy New Money') }} className={active === item ? 'active' : ''}><Icon size={16}/><span>{item}</span>{item === 'Deploy New Money' && <span className="nav-dot"/>}</button> })}</nav><div className="site-nav-panel-foot"><span><i/> {quoteStatus === 'live' ? 'Live price feed' : 'Manual price snapshot'}</span><span>Portfolio OS is a portfolio organization and calculation tool.</span></div></div>}
+    </header>
     <main className="main">
       <header className="topbar"><button className="menu-btn" onClick={() => setMobileNav(true)}><Menu size={21}/></button><div className="crumb"><span>Current US Portfolio</span><ChevronRight size={14}/><strong>{active}</strong></div><div className="top-actions"><button className="icon-btn"><CircleHelp size={18}/></button><div className="profile">US</div></div></header>
       <TickerMarquee livePrices={livePrices}/>
