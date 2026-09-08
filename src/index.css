@@ -77,6 +77,8 @@ body{letter-spacing:-.007em}
 .ticker-marquee{margin-top:16px!important}
 .ticker-marquee{position:relative;top:16px;margin-top:0!important;margin-bottom:16px!important}
 .ticker-marquee{transform:translateY(16px)!important}
+.main{padding-top:106px!important}
+.ticker-marquee{position:static;top:auto;transform:none!important;margin-top:0!important;margin-bottom:0!important}
 
 /* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
 @media(max-width:1100px){
