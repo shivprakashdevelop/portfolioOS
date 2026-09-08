@@ -69,6 +69,15 @@ body{letter-spacing:-.007em}
 }
 
 /* Mobile reference treatment: compact rounded header, then a full dark menu surface. */
+@media(max-width:1100px){
+  .site-nav{left:20px;right:20px}
+  .site-nav-bar{height:70px;border-radius:14px;padding:10px 16px}
+  .site-nav-menu{padding:8px 0;font-size:21px!important;font-weight:400!important;gap:12px}
+  .site-nav-menu svg{width:40px;height:28px;stroke-width:1.2}
+  .site-nav-brand{font-size:18px!important;font-weight:500!important;gap:8px}
+  .site-nav-brand .brand-mark{width:34px;height:34px;border-radius:5px}
+  .site-nav-action{padding:14px 22px;font-size:20px!important;font-weight:400!important;border-radius:5px}
+}
 @media(max-width:850px){
   .site-nav{top:0;left:0;right:0;max-width:none;margin:0;padding:18px 17px;background:transparent}
   .site-nav-bar{height:70px;padding:10px 16px;border-radius:14px;background:#151313;border-color:#151313}
