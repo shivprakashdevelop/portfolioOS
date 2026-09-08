@@ -68,6 +68,32 @@ body{letter-spacing:-.007em}
   .ticker-item{padding:9px 18px 9px 0;font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* Match the reference's dark floating pill and fluorescent marquee treatment. */
+.sidebar{background:var(--obsidian);border-color:var(--obsidian);color:var(--concrete)}
+.brand>span{display:inline!important;color:var(--concrete)!important}
+.brand-mark{background:var(--volt);color:var(--ink)}
+.nav-menu-label{color:var(--concrete)}
+.nav-menu-label:hover{border-color:var(--concrete);background:var(--charcoal)}
+.sidebar nav button{color:var(--concrete)}
+.sidebar nav button:hover,.sidebar nav button.active{background:var(--charcoal);color:var(--concrete)}
+.sidebar nav button:nth-child(5){background:var(--volt);color:var(--ink)}
+.nav-utility{border-color:var(--concrete);color:var(--concrete)}
+.nav-join{border-color:var(--volt);background:var(--volt);color:var(--ink)}
+.close-nav{display:none!important}
+.sidebar.open .close-nav{display:block!important;color:var(--concrete)}
+.ticker-marquee{background:var(--volt);border-color:var(--ink)}
+.ticker-item{color:var(--ink)}
+.ticker-item i{background:var(--ink);border-color:var(--ink)}
+@media(max-width:850px){
+  .sidebar{background:var(--obsidian);border-color:var(--obsidian)}
+  .sidebar .brand>span{display:inline!important;color:var(--concrete)!important}
+  .sidebar .nav-menu-label span{display:inline!important;color:var(--concrete)!important}
+  .sidebar .close-nav{display:none!important}
+  .sidebar.open .close-nav{display:block!important}
+  .sidebar.open .brand>span{display:inline!important}
+  .ticker-marquee{background:var(--volt);border-color:var(--ink)}
+}
 /* Final Osmo contrast guard: light surfaces always use Ink, inverse surfaces declare their own text. */
 .next-card,.panel,.metric-card,.health-card,.concentration-card,.sleeve-card,.stage-card,.holding-table,.deploy-modal,.settings-form,.settings-nav{color:var(--ink)}
 .next-card .priority,.next-card .priority span,.next-card .priority strong{color:var(--ink)}
