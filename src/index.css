@@ -72,6 +72,16 @@ body{letter-spacing:-.007em}
 .site-nav-bar{border-radius:14px!important}
 @media(max-width:1100px){.site-nav{left:20px;right:20px}.site-nav-bar{height:70px;border-radius:14px!important}}
 @media(max-width:850px){.site-nav{left:0;right:0;padding-left:17px;padding-right:17px}.site-nav-bar{border-radius:14px!important}}
+.value-comparison{margin-top:20px;padding-top:16px;border-top:1px solid #aa98ff}
+.value-comparison-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;font:400 11px HafferMono;color:var(--canvas)}
+.value-comparison-head strong{color:var(--volt);font:400 11px HafferMono;white-space:nowrap}
+.comparison-row{display:grid;grid-template-columns:84px minmax(0,1fr) 58px;gap:10px;align-items:center;margin-top:8px;font:400 12px HafferVF;color:var(--canvas)}
+.comparison-row>strong{text-align:right;font:400 12px HafferMono;color:var(--canvas)}
+.comparison-bar{height:7px;background:#aa98ff;border-radius:999px;overflow:hidden}
+.comparison-bar i{display:block;height:100%;max-width:100%;border-radius:inherit;background:#d8d0ff}
+.comparison-bar.market i{background:var(--volt)}
+.value-comparison small{display:block;margin-top:12px;color:#e5e0ff;font:400 10px HafferMono}
+@media(max-width:850px){.value-comparison{margin-top:18px}.value-comparison-head{align-items:flex-start;flex-direction:column;gap:4px}.comparison-row{grid-template-columns:74px minmax(0,1fr) 52px;font-size:11px}}
 
 /* Comfortable pill controls: keep labels and icons from crowding the border. */
 .outline-btn,.plain-btn,.filter-btn{
