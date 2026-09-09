@@ -24,6 +24,7 @@ import VLOLogo from './assets/logos/VLO.png'
 type Sleeve = { id: string; name: string; short: string; target: number; value: number; tone: string; description: string }
 type Holding = { id: string; name: string; ticker: string; sleeve: string; value: number; target: number; color: string; geography: string; sector: string; thesis: string; quantity?: number; averagePrice?: number; investedValue?: number }
 type Transaction = { id: string; holdingId: string; type: 'BUY' | 'SELL'; transactionDate: string; quantity: number; price: number; amount: number; currency: 'USD' | 'INR'; fees: number; notes: string; createdAt: string }
+type BulkPurchaseRow = { id: string; holdingId: string; quantity: string; price: string; fees: string }
 
 const iconPalette = ['#6840ff', '#2ba0ff', '#f84131', '#a1a1a1', '#201d1d']
 const holdingLogos: Record<string, string> = { AEM: AEMLogo, AAPL: AAPLLogo, AIS: AISLogo, AMD: AMDLogo, AMZN: AMZNLogo, ASML: ASMLLogo, AVGO: AVGOLogo, FRO: FROLogo, FRDM: FRDMLogo, GOOGL: GOOGLLogo, LRCX: LRCXLogo, META: METALogo, MSFT: MSFTLogo, MU: MULogo, NFLX: NFLXLogo, NVDA: NVDALogo, PLTR: PLTRLogo, SOXQ: SOXQLogo, TSM: TSMLogo, VLO: VLOLogo }
@@ -226,9 +227,13 @@ function HoldingsPage({ requestForm = 0, items, liveItems, livePrices, onHolding
   const [sleeveFilter, setSleeveFilter] = useState('all')
   const [showForm, setShowForm] = useState(false)
   const [purchaseHoldingId, setPurchaseHoldingId] = useState<string | null>(null)
+  const [showBulkPurchase, setShowBulkPurchase] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>(() => readPersisted('transactions', []))
   const [draft, setDraft] = useState({ name: '', ticker: '', value: '', sleeve: 'adam', target: '', thesis: '' })
   const [purchase, setPurchase] = useState({ holdingId: '', transactionDate: new Date().toISOString().slice(0, 10), quantity: '', price: '', fees: '0', notes: '' })
+  const [bulkDate, setBulkDate] = useState(new Date().toISOString().slice(0, 10))
+  const [bulkNotes, setBulkNotes] = useState('')
+  const [bulkRows, setBulkRows] = useState<BulkPurchaseRow[]>([])
   useEffect(() => { if (requestForm > 0) setShowForm(true) }, [requestForm])
   const visible = items.filter(h => (sleeveFilter === 'all' || h.sleeve === sleeveFilter) && `${h.name} ${h.ticker}`.toLowerCase().includes(query.toLowerCase()))
   const startPurchase = (holding: Holding) => {
@@ -236,6 +241,8 @@ function HoldingsPage({ requestForm = 0, items, liveItems, livePrices, onHolding
     setPurchase({ holdingId: holding.id, transactionDate: new Date().toISOString().slice(0, 10), quantity: '', price: currentPrice ? String(currentPrice) : '', fees: '0', notes: '' })
     setPurchaseHoldingId(holding.id)
   }
+  const newBulkRow = (holding?: Holding): BulkPurchaseRow => { const selected = holding ?? items[0]; const currentPrice = selected ? livePrices[selected.ticker] ?? snapshotPrices[selected.ticker] ?? '' : ''; return { id: `bulk-${Date.now()}-${Math.random()}`, holdingId: selected?.id ?? '', quantity: '', price: currentPrice ? String(currentPrice) : '', fees: '0' } }
+  const openBulkPurchase = () => { setPurchaseHoldingId(null); setBulkDate(new Date().toISOString().slice(0, 10)); setBulkNotes(''); setBulkRows([newBulkRow(items[0])]); setShowBulkPurchase(true) }
   const recordPurchase = () => {
     const holding = items.find(item => item.id === purchase.holdingId)
     const quantity = Number(purchase.quantity)
@@ -256,6 +263,32 @@ function HoldingsPage({ requestForm = 0, items, liveItems, livePrices, onHolding
     setPurchaseHoldingId(null)
     setPurchase({ holdingId: '', transactionDate: new Date().toISOString().slice(0, 10), quantity: '', price: '', fees: '0', notes: '' })
   }
+  const recordBulkPurchases = () => {
+    const updates = new Map<string, Holding>()
+    const newTransactions: Transaction[] = []
+    for (const row of bulkRows) {
+      const original = updates.get(row.holdingId) ?? items.find(item => item.id === row.holdingId)
+      const quantity = Number(row.quantity)
+      const price = Number(row.price)
+      const fees = Number(row.fees) || 0
+      if (!original || !Number.isFinite(quantity) || quantity <= 0 || !Number.isFinite(price) || price <= 0) continue
+      const referencePrice = snapshotPrices[original.ticker] ?? livePrices[original.ticker] ?? price
+      const existingQuantity = original.quantity ?? (original.value / Math.max(referencePrice, 0.000001))
+      const existingAverage = original.averagePrice ?? referencePrice
+      const existingInvested = original.investedValue ?? original.value
+      const amount = quantity * price
+      const nextQuantity = existingQuantity + quantity
+      updates.set(original.id, { ...original, value: original.value + quantity * referencePrice, quantity: nextQuantity, averagePrice: (existingQuantity * existingAverage + amount) / nextQuantity, investedValue: existingInvested + amount + fees })
+      newTransactions.push({ id: `txn-${Date.now()}-${newTransactions.length}`, holdingId: original.id, type: 'BUY', transactionDate: bulkDate, quantity, price, amount, currency: 'USD', fees, notes: bulkNotes.trim(), createdAt: new Date().toISOString() })
+    }
+    if (!newTransactions.length) return
+    onHoldingsChange(items.map(item => updates.get(item.id) ?? item))
+    const nextTransactions = [...newTransactions, ...transactions]
+    setTransactions(nextTransactions)
+    persist('transactions', nextTransactions)
+    setBulkRows([])
+    setShowBulkPurchase(false)
+  }
   const addHolding = () => {
     if (!draft.name.trim() || !Number(draft.value)) return
     const nextHolding: Holding = { id: `holding-${Date.now()}`, name: draft.name.trim(), ticker: draft.ticker.trim().toUpperCase(), sleeve: draft.sleeve, value: Number(draft.value), target: Number(draft.target) || 0, color: '#5d87a9', geography: 'Other', sector: 'Other', thesis: draft.thesis.trim(), investedValue: Number(draft.value) }
@@ -267,8 +300,9 @@ function HoldingsPage({ requestForm = 0, items, liveItems, livePrices, onHolding
   const transactionHolding = purchaseHoldingId ? items.find(item => item.id === purchaseHoldingId) : null
   const recentTransactions = transactions.slice(0, 8)
   return <div className="panel">
-    <div className="toolbar"><div className="search-box"><Search size={15}/><input placeholder="Search holdings" value={query} onChange={e => setQuery(e.target.value)} /></div><select className="filter-btn" value={sleeveFilter} onChange={e => setSleeveFilter(e.target.value)}><option value="all">All sleeves</option>{sleeves.map(s => <option value={s.id} key={s.id}>{s.name}</option>)}</select><button className="filter-btn" onClick={exportCsv}><Download size={14}/> Export CSV</button><button className="primary-btn" onClick={() => setShowForm(true)}><Plus size={14}/> Add</button></div>
+    <div className="toolbar"><div className="search-box"><Search size={15}/><input placeholder="Search holdings" value={query} onChange={e => setQuery(e.target.value)} /></div><select className="filter-btn" value={sleeveFilter} onChange={e => setSleeveFilter(e.target.value)}><option value="all">All sleeves</option>{sleeves.map(s => <option value={s.id} key={s.id}>{s.name}</option>)}</select><button className="filter-btn" onClick={exportCsv}><Download size={14}/> Export CSV</button><button className="outline-btn bulk-trigger" onClick={openBulkPurchase}><WalletCards size={14}/> Bulk purchase</button><button className="primary-btn" onClick={() => setShowForm(true)}><Plus size={14}/> Add</button></div>
     {showForm && <div className="inline-form"><span className="section-label">ADD HOLDING</span><div className="form-grid"><input placeholder="Name" value={draft.name} onChange={e => setDraft({...draft, name: e.target.value})}/><input placeholder="Ticker / symbol" value={draft.ticker} onChange={e => setDraft({...draft, ticker: e.target.value})}/><input placeholder="Current value" inputMode="numeric" value={draft.value} onChange={e => setDraft({...draft, value: e.target.value})}/><input placeholder="Target in sleeve %" inputMode="decimal" value={draft.target} onChange={e => setDraft({...draft, target: e.target.value})}/><select value={draft.sleeve} onChange={e => setDraft({...draft, sleeve: e.target.value})}>{sleeves.map(s => <option value={s.id} key={s.id}>{s.name}</option>)}</select><input placeholder="Why do you own it?" value={draft.thesis} onChange={e => setDraft({...draft, thesis: e.target.value})}/></div><div className="form-actions"><button className="outline-btn" onClick={() => setShowForm(false)}>Cancel</button><button className="primary-btn" onClick={addHolding}>Add holding</button></div></div>}
+    {showBulkPurchase && <div className="inline-form bulk-purchase-form"><div><span className="section-label">BULK PURCHASE</span><h3>Record multiple purchases</h3><p className="settings-help">Add several existing holdings in one step. Each line stays a separate BUY transaction.</p></div><div className="form-grid bulk-meta"><label>Purchase date<input type="date" value={bulkDate} onChange={e => setBulkDate(e.target.value)}/></label><label className="form-wide">Notes for all purchases<input placeholder="e.g. September contribution" value={bulkNotes} onChange={e => setBulkNotes(e.target.value)}/></label></div><div className="bulk-lines">{bulkRows.map((row, index) => <div className="bulk-line" key={row.id}><span className="bulk-line-number">{index + 1}</span><select value={row.holdingId} onChange={e => { const holding = items.find(item => item.id === e.target.value); setBulkRows(bulkRows.map(line => line.id === row.id ? {...line, holdingId: e.target.value, price: holding ? String(livePrices[holding.ticker] ?? snapshotPrices[holding.ticker] ?? '') : ''} : line)) }}>{items.map(item => <option value={item.id} key={item.id}>{item.ticker} · {item.name}</option>)}</select><input type="number" min="0" step="any" placeholder="Quantity" aria-label={`Quantity for purchase ${index + 1}`} value={row.quantity} onChange={e => setBulkRows(bulkRows.map(line => line.id === row.id ? {...line, quantity: e.target.value} : line))}/><input type="number" min="0" step="any" placeholder="Price" aria-label={`Price for purchase ${index + 1}`} value={row.price} onChange={e => setBulkRows(bulkRows.map(line => line.id === row.id ? {...line, price: e.target.value} : line))}/><input type="number" min="0" step="any" placeholder="Fees" aria-label={`Fees for purchase ${index + 1}`} value={row.fees} onChange={e => setBulkRows(bulkRows.map(line => line.id === row.id ? {...line, fees: e.target.value} : line))}/>{bulkRows.length > 1 && <button className="icon-btn" onClick={() => setBulkRows(bulkRows.filter(line => line.id !== row.id))} aria-label={`Remove purchase ${index + 1}`}><X size={15}/></button>}</div>)}</div><button className="outline-btn add-line-btn" onClick={() => setBulkRows([...bulkRows, newBulkRow(items[0])])}><Plus size={14}/> Add another line</button><div className="form-actions"><button className="outline-btn" onClick={() => setShowBulkPurchase(false)}>Cancel</button><button className="primary-btn" onClick={recordBulkPurchases}><Check size={15}/> Save all purchases</button></div></div>}
     {transactionHolding && <div className="inline-form transaction-form"><div><span className="section-label">BUY MORE OF {transactionHolding.ticker}</span><h3>Record a purchase</h3><p className="settings-help">This updates the existing position and keeps the purchase in your transaction history.</p></div><div className="transaction-summary"><HoldingIcon ticker={transactionHolding.ticker} color={transactionHolding.color}/><div><strong>{transactionHolding.name}</strong><small>Current position {inr(liveItems.find(item => item.id === transactionHolding.id)?.value ?? transactionHolding.value)}</small></div></div><div className="form-grid"><label>Purchase date<input type="date" value={purchase.transactionDate} onChange={e => setPurchase({...purchase, transactionDate: e.target.value})}/></label><label>Quantity<input type="number" min="0" step="any" placeholder="0.25" value={purchase.quantity} onChange={e => setPurchase({...purchase, quantity: e.target.value})}/></label><label>Price per share<input type="number" min="0" step="any" placeholder="616.53" value={purchase.price} onChange={e => setPurchase({...purchase, price: e.target.value})}/></label><label>Fees<input type="number" min="0" step="any" placeholder="0" value={purchase.fees} onChange={e => setPurchase({...purchase, fees: e.target.value})}/></label><label className="form-wide">Notes (optional)<input placeholder="e.g. Added on monthly contribution" value={purchase.notes} onChange={e => setPurchase({...purchase, notes: e.target.value})}/></label></div><div className="form-actions"><button className="outline-btn" onClick={() => setPurchaseHoldingId(null)}>Cancel</button><button className="primary-btn" onClick={recordPurchase}><Check size={15}/> Save purchase</button></div></div>}
     <div className="holding-table full-table"><div className="table-head"><span>Holding</span><span>Job</span><span>Current / target</span><span>Value</span></div>{visible.map(h => { const current = liveItems.find(item => item.id === h.id) ?? h; const sleeveValue = liveItems.filter(item => item.sleeve === h.sleeve).reduce((sum, item) => sum + item.value, 0); return <div className="holding-row" key={h.id}><div className="holding-name"><HoldingIcon ticker={h.ticker} color={h.color}/><div><strong>{h.name}</strong><small>{h.ticker} · {h.geography} · {h.sector}</small></div></div><span className="job-pill">{sleeves.find(s => s.id === h.sleeve)?.name}</span><span><strong>{pct(current.value / Math.max(sleeveValue, 1) * 100)}</strong><small className="muted-inline"> / {pct(h.target)}</small></span><div className="holding-value-cell"><strong>{inr(current.value)}</strong><button className="outline-btn purchase-btn" onClick={() => startPurchase(h)}>Add purchase</button></div></div> })}</div>
     {visible.length === 0 && <div className="empty-state"><Search size={20}/><strong>No holdings match</strong><span>Try a different search or sleeve.</span></div>}
