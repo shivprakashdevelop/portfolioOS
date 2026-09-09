@@ -96,6 +96,9 @@ body{letter-spacing:-.007em}
 .settings-data-row b{font:400 13px HafferMono;white-space:nowrap}
 .settings-toggle input{width:20px;height:20px;accent-color:var(--volt)}
 
+/* Light-theme form actions must not inherit the legacy dark-mode button surface. */
+.form-actions .outline-btn{background:var(--ash)!important;color:var(--ink)!important;border-color:var(--ink)!important}
+
 .holding-icon{display:inline-grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border:1px solid var(--ink);border-radius:50%;color:var(--canvas);font:700 9px HafferMono!important;letter-spacing:-.02em;line-height:1;text-align:center;overflow:hidden}
 .holding-icon.has-logo{padding:3px;background:#fff!important}
 .holding-icon.has-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
