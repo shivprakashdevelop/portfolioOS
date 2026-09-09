@@ -1,5 +1,5 @@
 import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowDownRight, ArrowUpRight, BarChart3, BookOpen, Check, ChevronRight, CircleHelp, Clock3, Download, FileText, Filter, Globe2, Home, LayoutGrid, Menu, MoreHorizontal, Pencil, Plus, RefreshCw, Search, Settings2, ShieldCheck, SlidersHorizontal, Sparkles, Target, TrendingUp, Upload, WalletCards, X } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, ChartBar as BarChart3, BookOpen, Check, CaretRight as ChevronRight, Question as CircleHelp, Clock as Clock3, DownloadSimple as Download, FileText, Funnel as Filter, Globe as Globe2, House as Home, SquaresFour as LayoutGrid, List as Menu, DotsThree as MoreHorizontal, PencilSimple as Pencil, Plus, ArrowClockwise as RefreshCw, MagnifyingGlass as Search, Gear as Settings2, ShieldCheck, SlidersHorizontal, Sparkle as Sparkles, Target, TrendUp as TrendingUp, UploadSimple as Upload, Wallet as WalletCards, X, IconContext } from '@phosphor-icons/react'
 import AEMLogo from './assets/logos/AEM.png'
 import AAPLLogo from './assets/logos/AAPL.png'
 import AISLogo from './assets/logos/AIS.svg'
@@ -146,7 +146,7 @@ function App() {
   const nav = ['Overview', 'Portfolio', 'Sleeves', 'Holdings', 'Deploy New Money', 'Rebalance', 'Reviews', 'Journal', 'Settings']
   const navigate = (screen: string) => { setActive(screen); setMobileNav(false); setShowDeploy(screen === 'Deploy New Money') }
 
-  return <div className="app-shell">
+  return <IconContext.Provider value={{ weight: 'duotone' }}><div className="app-shell">
     <header className={`site-nav ${mobileNav ? 'open' : ''}`}>
       <div className="site-nav-bar">
         <button className="site-nav-menu" onClick={() => setMobileNav(!mobileNav)} aria-expanded={mobileNav}><Menu size={18}/><span>Menu</span></button>
@@ -176,7 +176,7 @@ function App() {
       </div>
     </main>
     {showDeploy && <DeployModal amount={amount} setAmount={setAmount} amountCurrency={amountCurrency} setAmountCurrency={(next) => { const numeric = Number(amount.replace(/,/g, '')) || 0; setAmount(String(Math.round(next === 'USD' ? numeric / INR_PER_USD : numeric * INR_PER_USD))); setAmountCurrency(next) }} deployment={deployment} onClose={() => setShowDeploy(false)}/>} 
-  </div>
+  </div></IconContext.Provider>
 }
 
 function TickerMarquee({ holdings: tickerHoldings, livePrices }: { holdings: Holding[]; livePrices: Record<string, number> }) { const tickerItems = tickerHoldings.map(h => `${h.ticker}  $${(livePrices[h.ticker] ?? snapshotPrices[h.ticker] ?? 0).toFixed(2)}`); const items = [...tickerItems, ...tickerItems]; return <div className="ticker-marquee" aria-label="Portfolio ticker strip"><div className="ticker-track">{items.map((item, index) => <span className="ticker-item" key={`${item}-${index}`}><i/> {item}</span>)}</div></div> }
