@@ -98,6 +98,25 @@ body{letter-spacing:-.007em}
 
 /* Light-theme form actions must not inherit the legacy dark-mode button surface. */
 .form-actions .outline-btn{background:var(--ash)!important;color:var(--ink)!important;border-color:var(--ink)!important}
+.transaction-form{margin-top:12px}
+.transaction-form h3{margin:8px 0 4px;font:400 30px/1 HafferXH;letter-spacing:-.04em;color:var(--ink)}
+.transaction-summary{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--smoke);border-bottom:1px solid var(--smoke)}
+.transaction-summary div{display:flex;flex-direction:column;gap:2px}
+.transaction-summary small{font:400 12px HafferMono;color:var(--steel)}
+.transaction-form label{display:flex;flex-direction:column;gap:6px;font:700 12px HafferMono;color:var(--ink)}
+.transaction-form label input{width:100%;margin-top:0}
+.form-wide{grid-column:1/-1}
+.holding-value-cell{display:flex;align-items:center;justify-content:flex-end;gap:9px;min-width:0}
+.purchase-btn{padding:6px 10px;font-size:12px;white-space:nowrap}
+.transaction-history{margin-top:16px;padding-top:18px;border-top:1px solid var(--ink)}
+.transaction-history .panel-head{margin-bottom:5px}
+.transaction-history .panel-head h3{font:400 28px/1 HafferXH;letter-spacing:-.04em;margin:6px 0 0;color:var(--ink)}
+.transaction-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 0;border-top:1px solid var(--smoke)}
+.transaction-row div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.transaction-row small{font:400 12px HafferMono;color:var(--steel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.transaction-row>strong{font:700 14px HafferVF;color:var(--ink);white-space:nowrap}
+.compact-empty{padding:18px 0 5px;align-items:flex-start}
+@media(max-width:850px){.holding-value-cell{align-items:flex-end;flex-direction:column;gap:4px}.purchase-btn{font-size:11px;padding:5px 8px}.transaction-row small{white-space:normal}.transaction-form .form-grid{grid-template-columns:1fr 1fr}.form-wide{grid-column:1/-1}}
 
 .holding-icon{display:inline-grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border:1px solid var(--ink);border-radius:50%;color:var(--canvas);font:700 9px HafferMono!important;letter-spacing:-.02em;line-height:1;text-align:center;overflow:hidden}
 .holding-icon.has-logo{padding:3px;background:#fff!important}
