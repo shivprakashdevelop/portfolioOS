@@ -102,6 +102,10 @@ body{letter-spacing:-.007em}
 .comparison-line-legend i.current-dot{background:var(--volt)}
 .value-comparison small{display:block;margin-top:12px;color:#e5e0ff;font:400 10px HafferMono}
 @media(max-width:850px){.value-comparison{margin-top:18px}.value-comparison-head{align-items:flex-start;flex-direction:column;gap:7px}.comparison-tools{width:100%;justify-content:space-between}.comparison-row{grid-template-columns:74px minmax(0,1fr) 52px;font-size:11px}}
+.workspace-empty{justify-items:start;align-items:start;gap:10px;margin:0 0 22px;padding:24px;border:1px solid var(--ink);border-radius:10px;background:var(--ash);color:var(--ink)}
+.workspace-empty strong{font:400 28px/1 HafferXH;color:var(--ink)}
+.workspace-empty>span{max-width:620px;font:400 16px/1.45 HafferVF;color:var(--steel)}
+.empty-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
 
 /* Comfortable pill controls: keep labels and icons from crowding the border. */
 .outline-btn,.plain-btn,.filter-btn{
